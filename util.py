@@ -28,3 +28,12 @@ def getAllStudentProfileLinks(response: Response) -> list[str]:
         if "profile" in line:
             result.append(stringBetween(line, "<a href=\"", "\" >"))
     return result
+
+
+def cleanEmailList(allStudentEmails: list[str]):
+    counter: int = 0
+    for email in allStudentEmails:
+        if email == "no-mail":
+            allStudentEmails.remove(email)
+            counter = counter + 1
+    print(f"There have been %i Students without an E-Mail" % counter)
