@@ -1,16 +1,15 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from getpass import getpass
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def login(userName: str, password: str) -> bool:
+    return False
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    userName = input("Enter your Username for StudIP: ")
+    password = getpass()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    if login(userName, password):
+        exit(3)
+
+    exit(0)
