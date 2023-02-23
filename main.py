@@ -1,7 +1,7 @@
 import requests as requests
 
 from login import login
-from util import getCourseId
+from util import getCourseId, getAllStudentProfileLinks
 
 URL_LOGIN = "https://e-learning.tuhh.de/studip/index.php?again=yes"
 
@@ -15,11 +15,12 @@ if __name__ == '__main__':
 
         if login(session, URL_LOGIN):
 
-            response = session.get(URL_SELECT_ALL_SEMESTERS)
             courseName = input("What course are you looking for?\n")
-            courseId = getCourseId(response)
-            response = session.get(URL_GET_COURSE_MEMBERS_NOID + courseId)
+            courseId = getCourseId(session.get(URL_SELECT_ALL_SEMESTERS), courseName)
+
+            allStudentProfileLinks = getAllStudentProfileLinks(session.get(URL_GET_COURSE_MEMBERS_NOID + courseId))
             if courseId:
-                exit(0)
+                print(allStudentProfileLinks)
+            exit(0)
 
     exit(1)
