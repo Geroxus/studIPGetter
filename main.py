@@ -1,21 +1,30 @@
 import requests as requests
 
+from sys import argv
 from courseInformationApplicationService import printEmailsForAllParticipantsInCourse
 from loginService import login
 
 URL_LOGIN = "https://e-learning.tuhh.de/studip/index.php?again=yes"
 
-URL_SELECT_ALL_SEMESTERS = "https://e-learning.tuhh.de/studip/dispatch.php/my_courses/set_semester?sem_select=all"
-
-URL_GET_COURSE_MEMBERS_NOID = "https://e-learning.tuhh.de/studip/dispatch.php/course/members?cid="
-
 if __name__ == '__main__':
+
+    if len(argv) == 1:
+        print("you have to enter something to do")
+        exit(1)
+    else:
+        if argv[1] == "courseParticipantMails" and len(argv) == 3:
+            courseName = argv[2]
+        else:
+            print("this is not a valid command")
+            exit(1)
+        for arg in argv:
+            print(arg)
 
     with requests.Session() as session:
 
         if login(session, URL_LOGIN):
 
-            printEmailsForAllParticipantsInCourse()
+            printEmailsForAllParticipantsInCourse(session, courseName)
 
             exit(0)
 

@@ -1,10 +1,14 @@
+import requests
+
 from emailCollectionService import getAllEmails
-from main import session, URL_SELECT_ALL_SEMESTERS, URL_GET_COURSE_MEMBERS_NOID
 from util import getCourseId, getAllStudentProfileLinks, cleanEmailList
 
+URL_SELECT_ALL_SEMESTERS = "https://e-learning.tuhh.de/studip/dispatch.php/my_courses/set_semester?sem_select=all"
 
-def printEmailsForAllParticipantsInCourse():
-    courseName = input("What course are you looking for?\n")
+URL_GET_COURSE_MEMBERS_NOID = "https://e-learning.tuhh.de/studip/dispatch.php/course/members?cid="
+
+
+def printEmailsForAllParticipantsInCourse(session: requests.Session, courseName: str):
     courseId = getCourseId(session.get(URL_SELECT_ALL_SEMESTERS), courseName)
     allStudentProfileLinks = getAllStudentProfileLinks(session.get(URL_GET_COURSE_MEMBERS_NOID + courseId))
     print("get emails now")
