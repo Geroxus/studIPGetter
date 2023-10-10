@@ -1,8 +1,7 @@
 import requests as requests
 
-from emailCollectionService import getAllEmails
+from courseInformationApplicationService import printEmailsForAllParticipantsInCourse
 from loginService import login
-from util import getCourseId, getAllStudentProfileLinks, cleanEmailList
 
 URL_LOGIN = "https://e-learning.tuhh.de/studip/index.php?again=yes"
 
@@ -16,17 +15,7 @@ if __name__ == '__main__':
 
         if login(session, URL_LOGIN):
 
-            courseName = input("What course are you looking for?\n")
-            courseId = getCourseId(session.get(URL_SELECT_ALL_SEMESTERS), courseName)
-
-            allStudentProfileLinks = getAllStudentProfileLinks(session.get(URL_GET_COURSE_MEMBERS_NOID + courseId))
-            print("get emails now")
-            allStudentEmails: list[str] = getAllEmails(session, allStudentProfileLinks)
-
-            cleanEmailList(allStudentEmails)
-
-            for email in allStudentEmails:
-                print(f"%s;" % email, end="")
+            printEmailsForAllParticipantsInCourse()
 
             exit(0)
 
