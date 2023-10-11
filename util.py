@@ -3,7 +3,7 @@ import json
 from requests import Response
 
 
-def getCourseId(response: Response, courseName):
+def getCourseId(response: Response, courseName) -> str:
     for line in response.text.splitlines():
         myCoursesData: dict
         jsonNameInPageSource = "window.STUDIP.MyCoursesData = {\"courses\":"
@@ -14,7 +14,7 @@ def getCourseId(response: Response, courseName):
             for course in myCoursesData.values():
                 if courseName in course["name"]:
                     return course["id"]
-    return False
+    raise RuntimeError(f"getCourseId|courseName=${courseName}|response.status_code=${response.status_code}")
 
 
 def stringBetween(string: str, before: str, after: str) -> str:

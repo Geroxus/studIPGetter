@@ -8,7 +8,8 @@ URL_SELECT_ALL_SEMESTERS = "https://e-learning.tuhh.de/studip/dispatch.php/my_co
 URL_GET_COURSE_MEMBERS_NOID = "https://e-learning.tuhh.de/studip/dispatch.php/course/members?cid="
 
 
-def printEmailsForAllParticipantsInCourse(session: requests.Session, courseName: str):
+def printEmailsForAllParticipantsInCourse(session: requests.Session, args: tuple[str]):
+    courseName: str = args[0]
     courseId = getCourseId(session.get(URL_SELECT_ALL_SEMESTERS), courseName)
     allStudentProfileLinks = getAllStudentProfileLinks(session.get(URL_GET_COURSE_MEMBERS_NOID + courseId))
     print("get emails now")
