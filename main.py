@@ -3,7 +3,7 @@ from typing import Callable
 import requests as requests
 
 from sys import argv
-from courseInformationApplicationService import printEmailsForAllParticipantsInCourse
+from courseInformationApplicationService import printEmailsForAllParticipantsInCourse, checkAvailabilityOfCourses
 from loginService import login
 
 URL_LOGIN = "https://e-learning.tuhh.de/studip/index.php?again=yes"
@@ -26,9 +26,8 @@ if __name__ == '__main__':
         if argv[1] == "courseParticipantMails" and len(argv) == 3:
             courseName = argv[2]
             executeInSession(printEmailsForAllParticipantsInCourse, argv[2])
-        elif argv[1] == "courseAvailabilityCheck" and len(argv) > 2:
-            print("new command, wip")
-            exit(0)
+        elif argv[1] == "courseAvailabilityCheck" and len(argv) == 3:
+            executeInSession(checkAvailabilityOfCourses, *argv[2].split(","))
         else:
             print("this is not a valid command")
             exit(1011)
