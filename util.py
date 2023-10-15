@@ -4,6 +4,11 @@ from requests import Response
 
 
 def getCourseId(response: Response, courseName) -> str:
+    """ searches through the html of the response. Only works when the response is from the "my_courses" page
+    :param response:
+    :param courseName:
+    :return: the id of the course as a str
+    """
     for line in response.text.splitlines():
         myCoursesData: dict
         jsonNameInPageSource = "window.STUDIP.MyCoursesData = {\"courses\":"
