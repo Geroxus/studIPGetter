@@ -4,7 +4,7 @@ project
 import requests
 
 from email_collection_application_service import get_all_emails
-from util import getCourseId, getAllStudentProfileLinks, cleanEmailList
+from util import get_course_id, get_all_student_profile_links, clean_email_list
 
 URL_SELECT_MY_COURSES_ALL_SEMESTERS = \
     "https://e-learning.tuhh.de/studip/dispatch.php/my_courses/set_semester?sem_select=all"
@@ -20,12 +20,12 @@ def print_emails_for_all_participants_in_course(session: requests.Session, args:
     :return:
     """
     course_name: str = args[0]
-    course_id = getCourseId(session.get(URL_SELECT_MY_COURSES_ALL_SEMESTERS), course_name)
-    all_student_profile_links = getAllStudentProfileLinks(
+    course_id = get_course_id(session.get(URL_SELECT_MY_COURSES_ALL_SEMESTERS), course_name)
+    all_student_profile_links = get_all_student_profile_links(
         session.get(URL_GET_COURSE_MEMBERS_NOID + course_id))
     print("get emails now")
     all_student_emails: list[str] = get_all_emails(session, all_student_profile_links)
-    cleanEmailList(all_student_emails)
+    clean_email_list(all_student_emails)
     for email in all_student_emails:
         print(f"${email};", end="")
 
@@ -45,4 +45,4 @@ def check_availability_of_courses(session: requests.Session, args: tuple[str]) -
         print(url)
         search_course_response = session.get(url)
         # but the response appears to be different. Thus it seems I am in need of a need parser
-        print(getCourseId(search_course_response, arg))
+        print(get_course_id(search_course_response, arg))

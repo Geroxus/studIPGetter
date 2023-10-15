@@ -5,7 +5,7 @@ import asyncio
 
 import requests
 
-from util import stringBetween
+from util import string_between
 
 
 async def add_email_to_list(session: requests.Session, profile_link: str, email_list: list[str]) \
@@ -18,7 +18,7 @@ async def add_email_to_list(session: requests.Session, profile_link: str, email_
     :return: 
     """
     response = session.get(profile_link)
-    email = stringBetween(response.text,
+    email = string_between(response.text,
                           "@tuhh.de\">", "</a>") if "E-Mail:" in response.text else "no-mail"
 
     email = email.replace("\n", "")
