@@ -26,9 +26,6 @@ def execute_in_session(funtion: Callable, *args: str):
 
 
 if __name__ == '__main__':
-
-    # TODO move cli args interpreter to individual service <- maybe actually leave it here though
-    #                                                                 as it is the main controller
     if len(argv) == 1:
         print("you have to enter something to do")
         sys.exit(1001)
