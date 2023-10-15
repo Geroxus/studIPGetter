@@ -3,7 +3,7 @@ project
 """
 import requests
 
-from emailCollectionService import getAllEmails
+from email_collection_application_service import get_all_emails
 from util import getCourseId, getAllStudentProfileLinks, cleanEmailList
 
 URL_SELECT_MY_COURSES_ALL_SEMESTERS = \
@@ -24,7 +24,7 @@ def print_emails_for_all_participants_in_course(session: requests.Session, args:
     all_student_profile_links = getAllStudentProfileLinks(
         session.get(URL_GET_COURSE_MEMBERS_NOID + course_id))
     print("get emails now")
-    all_student_emails: list[str] = getAllEmails(session, all_student_profile_links)
+    all_student_emails: list[str] = get_all_emails(session, all_student_profile_links)
     cleanEmailList(all_student_emails)
     for email in all_student_emails:
         print(f"${email};", end="")
