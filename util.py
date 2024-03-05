@@ -22,7 +22,7 @@ def get_course_id(response: Response, course_name) -> str:
                 if course_name in course["name"]:
                     return course["id"]
     raise RuntimeError(
-        f"getCourseId|courseName=${course_name}|response.status_code=${response.status_code}")
+        f"getCourseId|courseName={course_name}|response.status_code={response.status_code}")
 
 
 def string_between(string: str, before: str, after: str) -> str:
@@ -58,4 +58,4 @@ def clean_email_list(all_student_emails: list[str]):
         if email == "no-mail":
             all_student_emails.remove(email)
             counter = counter + 1
-    print(f"There have been ${counter} Students without an E-Mail")
+    print(f"There have been {counter} Students without an E-Mail")
