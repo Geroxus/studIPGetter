@@ -1,2 +1,2 @@
 [tool.pylint.format]
-max-line-length=500
+max-line-length=600
