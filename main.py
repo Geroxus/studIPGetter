@@ -5,8 +5,8 @@ from sys import argv
 
 import requests
 
-from course_information_application_service import check_availability_of_courses
-from email_collection_application_service import print_emails_for_all_participants_in_course
+from course_information_service import check_availability_of_courses
+from email_collection_service import print_emails_for_all_participants_in_course
 from login_service import login
 
 URL_LOGIN = "https://e-learning.tuhh.de/studip/index.php?again=yes"
