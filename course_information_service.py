@@ -6,14 +6,14 @@ import json
 import requests
 
 
-def check_availability_of_courses(session: requests.Session, args: tuple[str]) -> None:
+def check_availability_of_courses(session: requests.Session, courses: tuple[str]) -> None:
     """ checks whether a course is available right now. Uses the global search
     :param session:
-    :param args:
+    :param courses:
     :return:
     """
-    print("getting availability for:", args)
-    for course in args:
+    print("getting availability for:", courses)
+    for course in courses:
         print(course)
         zugang: dict = {
             'gesperrt': 0,
@@ -22,11 +22,7 @@ def check_availability_of_courses(session: requests.Session, args: tuple[str]) -
             'erlaubt': 0,
             'unbekannt': 0,
         }
-        url = (f"https://e-learning.tuhh.de/studip/dispatch.php/globalsearch/find/100?search="
-               f"{course}&filters=%7B%22category%22%3A%22show_all_"
-               f"categories%22%2C%22semester%22%3A%22%22%7D")
-        search_course_response = session.get(url)
-        content = json.loads(search_course_response.text)["GlobalSearchCourses"]["content"]
+        content = get_courses_for_name(session, course)
         print("nr of courses found:", len(content))
         for item in content:
             if "23/24" in item["date"]:
@@ -44,6 +40,15 @@ def check_availability_of_courses(session: requests.Session, args: tuple[str]) -
             else:
                 attempt_apply(session, item, zugang)
         print(zugang)
+
+
+def get_courses_for_name(session, course) -> [dict]:
+    url = (f"https://e-learning.tuhh.de/studip/dispatch.php/globalsearch/find/100?search="
+           f"{course}&filters=%7B%22category%22%3A%22show_all_"
+           f"categories%22%2C%22semester%22%3A%22%22%7D")
+    search_course_response = session.get(url)
+    content = json.loads(search_course_response.text)["GlobalSearchCourses"]["content"]
+    return content
 
 
 def attempt_apply(session: requests.Session, item: dict, zugang: dict) -> None:
@@ -74,3 +79,13 @@ def attempt_apply(session: requests.Session, item: dict, zugang: dict) -> None:
     else:
         zugang['unbekannt'] += 1
         print("unbekannter Zustand")
+
+
+def auto_apply_to_courses(session: requests.Session, arg: tuple[dict]) -> None:
+    config: dict = arg[0]
+    for name in (course["name"] for course in config["courses"]):
+        response = get_courses_for_name(session, name)
+        for item in response:
+            if config["semester"] in item["date"]:
+                print("Ich bin eine Kurs in", config["semester"], ":", item["name"])
+                print(item)

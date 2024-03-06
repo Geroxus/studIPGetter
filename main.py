@@ -1,18 +1,19 @@
 """main"""
+import json
 import sys
 from typing import Callable
 from sys import argv
 
 import requests
 
-from course_information_service import check_availability_of_courses
+from course_information_service import check_availability_of_courses, auto_apply_to_courses
 from email_collection_service import print_emails_for_all_participants_in_course
 from login_service import login
 
 URL_LOGIN = "https://e-learning.tuhh.de/studip/index.php?again=yes"
 
 
-def execute_in_session(funtion: Callable, *args: str):
+def execute_in_session(funtion: Callable, *args):
     """wraps the callable in a with session body and performs login
     :param funtion:
     :param args:
@@ -45,6 +46,13 @@ if __name__ == '__main__':
             execute_in_session(print_emails_for_all_participants_in_course, argv[2])
         elif argv[1] == "courseAvailabilityCheck" and len(argv) == 3:
             execute_in_session(check_availability_of_courses, *argv[2].split(","))
+        elif argv[1] == "courseAutoApply" and len(argv) == 3:
+            # takes the json as argument where the auto apply is regulated in
+            with open("sose22.json", "rt") as file:
+                config = json.load(file)
+                execute_in_session(auto_apply_to_courses, config)
+
+            pass
         else:
             print("this is not a valid command")
             sys.exit(1011)

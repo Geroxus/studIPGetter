@@ -1,0 +1,11 @@
+{
+  "semester": "SoSe 22",
+  "courses" : [
+    {
+      "name": "Betriebswirtschaftslehre",
+      "should-sign-up": true,
+      "sign-up-success": false,
+      "status": []
+    }
+  ]
+}
