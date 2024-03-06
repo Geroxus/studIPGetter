@@ -48,11 +48,9 @@ if __name__ == '__main__':
             execute_in_session(check_availability_of_courses, *argv[2].split(","))
         elif argv[1] == "courseAutoApply" and len(argv) == 3:
             # takes the json as argument where the auto apply is regulated in
-            with open("sose22.json", "rt") as file:
+            with open("sose22.json", "rt", encoding='utf_8') as file:
                 config = json.load(file)
                 execute_in_session(auto_apply_to_courses, config)
-
-            pass
         else:
             print("this is not a valid command")
             sys.exit(1011)

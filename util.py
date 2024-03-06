@@ -9,5 +9,3 @@ def string_between(string: str, before: str, after: str) -> str:
     :return:
     """
     return string.split(before)[1].split(after)[0]
-
-
